@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 
 function App() {
   const [csvData, setCsvData] = useState(null);
-  const [results, setResults] = useState([]); // Nuevo estado para almacenar los resultados
+  const [results, setResults] = useState([]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -21,7 +21,6 @@ function App() {
       
       const sendRequest = (row, index) => {
         const url = new URL('/api/nwtecuador/PedidoActionCrearWS', window.location.origin);
-        // const url = new URL('/api/nwtecuador/EstadoPedidoActionCallbackWS', window.location.origin);
         Object.keys(row).forEach(key => {
           url.searchParams.append(key, row[key]);
         });
@@ -36,18 +35,18 @@ function App() {
         .then(response => response.json())
         .then(data => {
           newResults.push({ row, result: data });
-          setResults([...newResults]); // Actualizar el estado con los nuevos resultados
+          setResults([...newResults]);
         })
         .catch(error => {
           newResults.push({ row, result: error.message });
-          setResults([...newResults]); // Actualizar el estado con los errores
+          setResults([...newResults]);
         });
       };
 
       csvData.forEach((row, index) => {
         setTimeout(() => {
           sendRequest(row, index);
-        }, index * 300); // intervalo de 1 segundo entre cada solicitud
+        }, index * 300);
       });
     }
   };
