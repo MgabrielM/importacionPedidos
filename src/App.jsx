@@ -18,9 +18,9 @@ function App() {
   const sendPostRequests = () => {
     if (csvData) {
       const newResults = [];
-      
+
       const sendRequest = (row, index) => {
-        const url = new URL('https://naturaecuador.intrasites.com/nwtecuador/PedidoActionCrearWS', window.location.origin);
+        const url = new URL('/api/nwtecuador/PedidoActionCrearWS', window.location.origin);
         Object.keys(row).forEach(key => {
           url.searchParams.append(key, row[key]);
         });
@@ -32,15 +32,20 @@ function App() {
           },
           body: JSON.stringify(row),
         })
-        .then(response => response.json())
-        .then(data => {
-          newResults.push({ row, result: data });
-          setResults([...newResults]);
-        })
-        .catch(error => {
-          newResults.push({ row, result: error.message });
-          setResults([...newResults]);
-        });
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            newResults.push({ row, result: data });
+            setResults([...newResults]);
+          })
+          .catch(error => {
+            newResults.push({ row, result: error.message });
+            setResults([...newResults]);
+          });
       };
 
       csvData.forEach((row, index) => {
