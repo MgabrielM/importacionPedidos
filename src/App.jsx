@@ -20,7 +20,7 @@ function App() {
       const newResults = [];
       
       const sendRequest = (row, index) => {
-        const url = new URL('/api/nwtecuador/PedidoActionCrearWS', window.location.origin);
+        const url = new URL('https://naturaecuador.intrasites.com/nwtecuador/PedidoActionCrearWS', window.location.origin);
         Object.keys(row).forEach(key => {
           url.searchParams.append(key, row[key]);
         });
