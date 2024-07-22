@@ -46,7 +46,7 @@ function App() {
       csvData.forEach((row, index) => {
         setTimeout(() => {
           sendRequest(row, index);
-        }, index * 300);
+        }, index * 400);
       });
     }
   };
